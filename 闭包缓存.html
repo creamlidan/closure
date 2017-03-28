@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+</head>
+<body>
+<div>div</div>
+<p>p</p>
+<span>span</span>
+<b>b</b>
+<div>div</div>
+<p>p</p>
+<span>span</span>
+<b>b</b>
+<div>div</div>
+<p>p</p>
+<span>span</span>
+<b>b</b>
+<em>em<em>
+</body>
+<script type="text/javascript">
+//读取元素
+var length = 3;
+var $ = (function(){
+	var selectors ={};
+	var selector_List = [];
+	return function( selector ){
+		var nodeList;
+		//1.如果缓存对象中有就直接取出来返回
+		if( selectors[ selector ] ){
+			nodeList = selectors[ selector ];
+		}else{
+		//2.缓存中没有,获取后添加到缓存对象中
+			nodeList = [].slice.call( document.querySelectorAll( selector ) );
+			//2.1.判断缓存对象中是否溢出,如果溢出就删除最早添加的
+			if( selector_List.length >= length ){
+				var key = selector_List.shift();
+				delete selectors[ key ];
+			}
+			//2.2 添加新元素到数组和对象中
+			selector_List.push( selector );
+			selectors[ selector ] = nodeList;
+		}
+		return nodeList;
+	}
+})();
+
+console.log($('div'))
+console.log($('p'))
+console.log($('b'))
+console.log($('span'))
+console.log($('em'))
+</script>
+</html>
